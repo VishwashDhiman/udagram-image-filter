@@ -1,6 +1,5 @@
-# Udagram Image Filtering Microservice
+# Udagram Image Filtering 
 
-## Tasks
 
 ### Setup Node Enviornment
 
