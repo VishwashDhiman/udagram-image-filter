@@ -19,26 +19,14 @@ const util_1 = require("./util/util");
     const app = express_1.default();
     // Set the network port
     const port = process.env.PORT || 8082;
-    const files = [];
+    let files = [];
     // Use the body parser middleware for post requests
     app.use(body_parser_1.default.json());
-    // @TODO1 IMPLEMENT A RESTFUL ENDPOINT
-    // GET /filteredimage?image_url={{URL}}
-    // endpoint to filter an image from a public url.
-    // IT SHOULD
-    //    1
-    //    1. validate the image_url query
-    //    2. call filterImageFromURL(image_url) to filter the image
-    //    3. send the resulting file in the response
-    //    4. deletes any files on the server on finish of the response
-    // QUERY PARAMATERS
-    //    image_url: URL of a publicly accessible image
-    // RETURNS
-    //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
-    /**************************************************************************** */
-    //! END @TODO1
-    // Root Endpoint
-    // Displays a simple message to the user
+    // Sending response to prevent 4xx errors on root URL
+    app.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+        res.send("try /filteredimage?image_url={{URL}}");
+    }));
+    // Filters and returns the requested image
     app.get("/filteredimage", (req, res) => __awaiter(this, void 0, void 0, function* () {
         let { image_url } = req.query;
         if (!image_url)
@@ -48,7 +36,7 @@ const util_1 = require("./util/util");
         if (!result)
             return res.status(422).send({ message: 'Unable to process image due to semantic errors.' });
         files.push(result);
-        res.sendFile(result);
+        res.status(200).sendFile(result);
     }));
     // Start the Server
     app.listen(port, () => {

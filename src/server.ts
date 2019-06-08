@@ -12,16 +12,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   let files: string[] = [];
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
-
-  // Filters and returns the image
+  // Sending response to prevent 4xx errors on root URL
+  app.get( "/", async ( req, res ) => {
+    res.send( "try /filteredimage?image_url={{URL}}" );
+  } );
+  // Filters and returns the requested image
   app.get( "/filteredimage", async ( req, res ) => {
     let { image_url } = req.query;
     if(!image_url)
       return res.status(400).send({ message: 'Image url is required' }) 
     deleteLocalFiles(files);
     let result = await filterImageFromURL(image_url);
-    // if(!result)
-    //   return res.status(422).send({ message: 'Unable to process image due to semantic errors.' })
+    if(!result)
+      return res.status(422).send({ message: 'Unable to process image due to semantic errors.' })
     files.push(result)
     res.status(200).sendFile(result)
   } );
