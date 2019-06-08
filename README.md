@@ -10,5 +10,3 @@ You'll need to create a new node server. Open a new terminal within the project 
 
 ### Build
 Run `npm run build` to build the project. The build artifacts will be stored in the www/ directory.
-
-### git checkout dev
